@@ -4,3 +4,4 @@ config.json
 .env
 cache/*
 artifacts/*
+hardhat.config.js
