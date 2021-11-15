@@ -37,8 +37,8 @@
       ]
     },
     "/home/mk/projects/web_3.0/buildspace/solidity/waveportal/contracts/WavePortal.sol": {
-      "lastModificationDate": 1636953620649,
-      "contentHash": "d31039e4720f4ee82a1e057c637beff6",
+      "lastModificationDate": 1636955077005,
+      "contentHash": "a2634c9c6b6b41e458dc29cd70ca1eaf",
       "sourceName": "contracts/WavePortal.sol",
       "solcConfig": {
         "version": "0.8.0",

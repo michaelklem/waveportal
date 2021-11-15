@@ -5,6 +5,8 @@ pragma solidity ^0.8.0;
 import "hardhat/console.sol";
 
 contract WavePortal {
+  uint MAX_WAVES_ALLOWED = 1;
+
   // This stores to total number of waves sent to this contract.
   uint256 totalWaves;
 
@@ -15,7 +17,13 @@ contract WavePortal {
       console.log("Hi Farza!!!");
   }
 
-  function wave() public {
+  modifier notBotheringMeYet {
+    console.log("%s waved %d times", msg.sender, totalWaveByAddress[msg.sender]);
+    require(totalWaveByAddress[msg.sender] <= MAX_WAVES_ALLOWED, "Now I am bothered by you");
+    _;
+  }
+
+  function wave() public notBotheringMeYet {
     totalWaves += 1;
 
     // Update the total waves sent by address
