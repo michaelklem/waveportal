@@ -9,22 +9,41 @@ const main = async () => {
   console.log("Contract deployed by:", owner.address);
 
   let waveCount;
+  let waveTxn;
+
   waveCount = await waveContract.getTotalWaves();
   
-  let waveTxn = await waveContract.wave();
-  await waveTxn.wait();
+  try {
+    // the owner can wave as many times as they want
+    for (let i = 0; i < 15; i++) {
+      waveTxn = await waveContract.wave();
+      await waveTxn.wait();
+    }
 
-  waveTxn = await waveContract.connect(randomPerson).wave();
-  await waveTxn.wait();
+    // the owner can wave as many times as they want
+    for (let i = 0; i < 13; i++) {
+      waveTxn = await waveContract.connect(randomPerson).wave();
+      await waveTxn.wait();
+    }
 
-  waveTxn = await waveContract.connect(randomPerson).wave();
-  await waveTxn.wait();
+    // waveTxn = await waveContract.connect(randomPerson).wave();
+    // await waveTxn.wait();
 
-  waveTxn = await waveContract.connect(randomPerson).wave();
-  await waveTxn.wait();
+    // waveTxn = await waveContract.connect(randomPerson).wave();
+    // await waveTxn.wait();
+
+    // waveTxn = await waveContract.connect(randomPerson).wave();
+    // await waveTxn.wait();
+  }
+  catch(err) {
+    console.log('Error: ' + err.message)
+  }
   
-  await waveContract.getTotalWavesByAddress('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266');
-  await waveContract.getTotalWavesByAddress( randomPerson.address );
+  const ownerWaves = await waveContract.getTotalWavesByAddress( owner.address );
+  console.log('Number of time the owner waved: ' + ownerWaves)
+
+  const randoWaves = await waveContract.getTotalWavesByAddress( randomPerson.address );
+  console.log('Number of time the rando waved: ' + randoWaves)
   
   waveCount = await waveContract.getTotalWaves();
 };

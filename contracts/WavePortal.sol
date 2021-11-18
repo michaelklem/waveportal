@@ -3,9 +3,11 @@
 pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract WavePortal {
-  uint MAX_WAVES_ALLOWED = 1;
+contract WavePortal is Ownable{
+  uint MAX_WAVES_ALLOWED = 10;
 
   // This stores to total number of waves sent to this contract.
   uint256 totalWaves;
@@ -18,9 +20,16 @@ contract WavePortal {
   }
 
   modifier notBotheringMeYet {
-    console.log("%s waved %d times", msg.sender, totalWaveByAddress[msg.sender]);
-    require(totalWaveByAddress[msg.sender] <= MAX_WAVES_ALLOWED, "Now I am bothered by you");
+    // We ignore this logic for the owner of the contract so they can wave as many times as needed.
+    if (! isOwner()) {
+      console.log("%s waved %d times", msg.sender, totalWaveByAddress[msg.sender]);
+      require(totalWaveByAddress[msg.sender] <= MAX_WAVES_ALLOWED, "I have been bothered.");
+    }
     _;
+  }
+
+  function isOwner() internal view virtual returns (bool) {
+    return msg.sender == owner();
   }
 
   function wave() public notBotheringMeYet {
